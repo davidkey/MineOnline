@@ -94,7 +94,7 @@ public class MainForm implements IContainerForm {
                         JOptionPane.showMessageDialog(null, "You have no Minecraft configurations.\nPlease add one using the Settings screen.");
                         return;
                     }
-
+                  
                     MinecraftInstall install = installs.get(comboBox1.getSelectedIndex());
 
                     if(install.jarPath.isEmpty() && !(new File(install.jarPath).exists())) {
