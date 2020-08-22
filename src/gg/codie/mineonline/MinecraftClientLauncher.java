@@ -3,7 +3,6 @@ package gg.codie.mineonline;
 import gg.codie.minecraft.client.Options;
 import gg.codie.mineonline.gui.rendering.DisplayManager;
 import gg.codie.mineonline.patches.PropertiesSignaturePatch;
-import gg.codie.mineonline.patches.URLPatch;
 import gg.codie.mineonline.patches.YggdrasilMinecraftSessionServicePatch;
 import gg.codie.utils.MD5Checksum;
 import gg.codie.utils.OSUtils;
@@ -21,7 +20,6 @@ public class MinecraftClientLauncher {
 
     private static final boolean DEBUG = true;
 
-    public static final String PROP_ENV = "minecraft.api.env";
     public static final String PROP_AUTH_HOST = "minecraft.api.auth.host";
     public static final String PROP_ACCOUNT_HOST = "minecraft.api.account.host";
     public static final String PROP_SESSION_HOST = "minecraft.api.session.host";
@@ -34,6 +32,7 @@ public class MinecraftClientLauncher {
     String uuid;
     String width;
     String height;
+    String proxyPort;
 
     MinecraftVersion minecraftVersion;
 
@@ -49,6 +48,9 @@ public class MinecraftClientLauncher {
             launchArgs.add("-javaagent:" + LauncherFiles.PATCH_AGENT_JAR);
             launchArgs.add("-Djava.util.Arrays.useLegacyMergeSort=true");
             launchArgs.add("-Djava.net.preferIPv4Stack=true");
+            launchArgs.add(Proxy.PROXY_SET_ARG);
+            launchArgs.add(Proxy.PROXY_HOST_ARG);
+            launchArgs.add(Proxy.PROXY_PORT_ARG + Proxy.getProxyPort());
             if(OSUtils.isMac())
                 launchArgs.add("-XstartOnFirstThread");
             launchArgs.add("-Dmineonline.username=" + Session.session.getUsername());
@@ -106,12 +108,12 @@ public class MinecraftClientLauncher {
     }
 
     public static void main(String[] args) throws Exception {
-        String serverAddress = args.length > 3 ? args[3] : null;
-        String serverPort = args.length > 4 ? args[4] : null;
-        new MinecraftClientLauncher(args[0], args[1], args[2], serverAddress, serverPort).startMinecraft();
+        String serverAddress = args.length > 4 ? args[4] : null;
+        String serverPort = args.length > 5 ? args[5] : null;
+        new MinecraftClientLauncher(args[0], args[1], args[2], args[3], serverAddress, serverPort).startMinecraft();
     }
 
-    public MinecraftClientLauncher(String jarPath, String width, String height, String serverAddress, String serverPort) throws Exception {
+    public MinecraftClientLauncher(String jarPath, String width, String height, String proxyPort, String serverAddress, String serverPort) throws Exception {
         this.jarPath = jarPath;
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
@@ -120,6 +122,7 @@ public class MinecraftClientLauncher {
         this.uuid = System.getProperty("mineonline.uuid");
         this.width = width;
         this.height = height;
+        this.proxyPort = proxyPort;
 
         LibraryManager.addJarToClasspath(Paths.get(LauncherFiles.JSON_JAR).toUri().toURL());
         LibraryManager.addJarToClasspath(Paths.get(LauncherFiles.BYTEBUDDY_JAR).toUri().toURL());
@@ -165,7 +168,6 @@ public class MinecraftClientLauncher {
 
             new Session(username, token, uuid);
 
-            URLPatch.redefineURL();
             PropertiesSignaturePatch.redefineIsSignatureValid();
             YggdrasilMinecraftSessionServicePatch.allowMineonlineSkins();
 
@@ -211,6 +213,12 @@ public class MinecraftClientLauncher {
 
             args.add("--accessToken");
             args.add(token);
+
+            args.add("--proxyHost");
+            args.add("127.0.0.1");
+
+            args.add("--proxyPort");
+            args.add(proxyPort);
 
             if (Settings.settings.has(Settings.FULLSCREEN) && Settings.settings.getBoolean(Settings.FULLSCREEN))
                 args.add("--fullscreen");

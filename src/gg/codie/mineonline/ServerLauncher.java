@@ -39,6 +39,11 @@ public abstract class ServerLauncher {
     protected final String bannedPlayersJSONPath;
 
     public ServerLauncher(String jarPath) throws Exception {
+        LibraryManager.extractLibraries();
+        LibraryManager.updateClasspath();
+
+        Proxy.launchProxy();
+
         this.jarPath = jarPath;
         md5 = MD5Checksum.getMD5ChecksumForFile(jarPath);
         minecraftVersion = MinecraftVersionRepository.getSingleton().getVersionByMD5(md5);

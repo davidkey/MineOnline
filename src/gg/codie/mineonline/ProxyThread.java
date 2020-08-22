@@ -1,8 +1,6 @@
 package gg.codie.mineonline;
 
-import gg.codie.mineonline.patches.URLConstructAdvice;
 import gg.codie.utils.ArrayUtils;
-import gg.codie.utils.JSONUtils;
 
 import java.io.*;
 import java.net.*;

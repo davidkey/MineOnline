@@ -91,9 +91,6 @@ public class LegacyMinecraftClientLauncher extends Applet implements AppletStub{
         fullscreen = Settings.settings.has(Settings.FULLSCREEN) && Settings.settings.getBoolean(Settings.FULLSCREEN);
 
         String CP = "-cp";
-        String proxySet = "-DproxySet=true";
-        String proxyHost = "-Dhttp.proxyHost=127.0.0.1";
-        String proxyPortArgument = "-Dhttp.proxyPort=";
 
         String classpath = System.getProperty("java.class.path").replace("\"", "");
         String natives = "-Djava.library.path=" + LauncherFiles.MINEONLNE_NATIVES_FOLDER;
@@ -129,9 +126,9 @@ public class LegacyMinecraftClientLauncher extends Applet implements AppletStub{
 
             String[] CMD_ARRAY = new String[] {
                     Settings.settings.getString(Settings.JAVA_COMMAND),
-                    proxySet, proxyHost, proxyPortArgument + System.getProperty("http.proxyPort"),
+                    Proxy.PROXY_SET_ARG, Proxy.PROXY_HOST_ARG, Proxy.PROXY_PORT_ARG + System.getProperty("http.proxyPort"),
                     CP, classpath + getClasspathSeparator() + LauncherFiles.LWJGL_JAR + getClasspathSeparator() + LauncherFiles.LWJGL_UTIL_JAR + getClasspathSeparator() + jarPath,
-                    "-Djava.library.path=" + LauncherFiles.MINECRAFT_VERSIONS_PATH + "1.6.2/natives",
+                    natives,
                     rubyDungClass.getCanonicalName()
             };
 
@@ -158,8 +155,7 @@ public class LegacyMinecraftClientLauncher extends Applet implements AppletStub{
         if (minecraftVersion != null && minecraftVersion.type.equals("launcher")) {
             String[] CMD_ARRAY = new String[] {
                     Settings.settings.getString(Settings.JAVA_COMMAND),
-                    proxySet, proxyHost, proxyPortArgument + System.getProperty("http.proxyPort"),
-                    //"-javaagent:" + LauncherFiles.PATCH_AGENT_JAR,
+                    Proxy.PROXY_SET_ARG, Proxy.PROXY_HOST_ARG, Proxy.PROXY_PORT_ARG + System.getProperty("http.proxyPort"),
                     "-Dsun.java2d.noddraw=true",
                     "-Dsun.java2d.d3d=false",
                     "-Dsun.java2d.opengl=false",

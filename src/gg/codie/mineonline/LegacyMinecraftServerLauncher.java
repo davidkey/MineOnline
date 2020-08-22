@@ -11,8 +11,6 @@ public class LegacyMinecraftServerLauncher extends ServerLauncher {
     public LegacyMinecraftServerLauncher(String[] args) throws Exception {
         super(args[0]);
 
-        Proxy.launchProxy();
-
         String[] CMD_ARRAY = new String[] {Settings.settings.getString(Settings.JAVA_COMMAND), Proxy.PROXY_SET_ARG, Proxy.PROXY_HOST_ARG, Proxy.PROXY_PORT_ARG + Proxy.getProxyPort()};
 
         CMD_ARRAY = ArrayUtils.concatenate(CMD_ARRAY, Arrays.copyOfRange(args, 1, args.length));

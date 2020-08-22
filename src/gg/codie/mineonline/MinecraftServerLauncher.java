@@ -16,12 +16,6 @@ public class MinecraftServerLauncher extends ServerLauncher {
     public MinecraftServerLauncher(String[] args) throws Exception {
         super(args[0]);
 
-        LibraryManager.addJarToClasspath(Paths.get(LauncherFiles.JSON_JAR).toUri().toURL());
-        LibraryManager.addJarToClasspath(Paths.get(LauncherFiles.BYTEBUDDY_JAR).toUri().toURL());
-        LibraryManager.addJarToClasspath(Paths.get(LauncherFiles.BYTEBUDDY_DEP_JAR).toUri().toURL());
-
-        MinecraftVersion serverVersion = MinecraftVersionRepository.getSingleton().getVersionByMD5(md5);
-
         Process serverProcess = MinecraftServerProcess.startMinecraftServer(args);
 
         Thread closeLauncher = new Thread() {

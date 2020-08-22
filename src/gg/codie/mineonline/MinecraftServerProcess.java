@@ -1,6 +1,5 @@
 package gg.codie.mineonline;
 
-import gg.codie.mineonline.patches.URLPatch;
 import gg.codie.utils.ArrayUtils;
 
 import java.io.File;
@@ -9,8 +8,6 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 public class MinecraftServerProcess {
-
-    public static final String PROP_ENV = "minecraft.api.env";
     public static final String PROP_AUTH_HOST = "minecraft.api.auth.host";
     public static final String PROP_ACCOUNT_HOST = "minecraft.api.account.host";
     public static final String PROP_SESSION_HOST = "minecraft.api.session.host";
@@ -21,11 +18,14 @@ public class MinecraftServerProcess {
 
         String[] launchArgs = new String[] {
                 Settings.settings.getString(Settings.JAVA_COMMAND),
+                Proxy.PROXY_SET_ARG,
+                Proxy.PROXY_HOST_ARG,
+                Proxy.PROXY_PORT_ARG + Proxy.getProxyPort(),
                 "-javaagent:" + LauncherFiles.PATCH_AGENT_JAR,
                 "-Djava.util.Arrays.useLegacyMergeSort=true",
                 "-cp",
                 new File(Proxy.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath(),
-                MinecraftServerProcess.class.getCanonicalName(),
+                MinecraftServerProcess.class.getCanonicalName()
         };
 
         ProcessBuilder processBuilder = new ProcessBuilder(ArrayUtils.concatenate(launchArgs, args));
@@ -45,13 +45,6 @@ public class MinecraftServerProcess {
     }
 
     public static void main(String[] args) throws Exception {
-        LibraryManager.addJarToClasspath(Paths.get(LauncherFiles.JSON_JAR).toUri().toURL());
-        LibraryManager.addJarToClasspath(Paths.get(LauncherFiles.BYTEBUDDY_JAR).toUri().toURL());
-        LibraryManager.addJarToClasspath(Paths.get(LauncherFiles.BYTEBUDDY_DEP_JAR).toUri().toURL());
-
-        URLPatch.redefineURL();
-
-
         File jarFile = new File(args[0]);
         if(!jarFile.exists()) {
             System.err.println("Couldn't find jar file " + args[0]);
