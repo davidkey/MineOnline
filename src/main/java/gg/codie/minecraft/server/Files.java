@@ -1,28 +1,29 @@
 package gg.codie.minecraft.server;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Files {
     public static String[][] readPlayersJSON(String path) {
         try {
             File usersFile = new File(path);
             if (usersFile.exists()) {
-                LinkedList list = new LinkedList();
+                LinkedList<String> list = new LinkedList<String>();
                 BufferedReader reader = new BufferedReader(new FileReader(usersFile));
                 String line;
                 while ((line = reader.readLine()) != null) {
                     list.add(line);
                 }
                 reader.close();
-                LinkedList uuids = new LinkedList();
-                LinkedList names = new LinkedList();
+                List<String> uuids = new LinkedList<>();
+                List<String> names = new LinkedList<>();
                 for (Object jsonObject : new JSONArray(String.join("", (String[])list.toArray(new String[0])))) {
                     if (((JSONObject) jsonObject).has("uuid")) {
                         uuids.add(((JSONObject)jsonObject).getString("uuid"));
@@ -48,14 +49,14 @@ public class Files {
         try {
             File usersFile = new File(path);
             if (usersFile.exists()) {
-                LinkedList list = new LinkedList();
+                List<String> list = new LinkedList<>();
                 BufferedReader reader = new BufferedReader(new FileReader(usersFile));
                 String line;
                 while ((line = reader.readLine()) != null) {
                     list.add(line);
                 }
                 reader.close();
-                LinkedList ips = new LinkedList();
+                List<String> ips = new LinkedList<>();
                 for (Object jsonObject : new JSONArray(String.join("", (String[])list.toArray(new String[0])))) {
                     if (((JSONObject) jsonObject).has("ip")) {
                         ips.add(((JSONObject)jsonObject).getString("ip"));
@@ -74,7 +75,7 @@ public class Files {
         try {
             File usersFile = new File(path);
             if (usersFile.exists()) {
-                LinkedList list = new LinkedList();
+                List<String> list = new LinkedList<>();
                 BufferedReader reader = new BufferedReader(new FileReader(usersFile));
                 String line;
                 while ((line = reader.readLine()) != null) {

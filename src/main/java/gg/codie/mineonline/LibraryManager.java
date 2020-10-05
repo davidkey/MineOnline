@@ -30,8 +30,10 @@ public class LibraryManager {
 
         ProgressDialog.setMessage("Extracting libraries...");
 
-        File jarFile = new File(LibraryManager.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-
+       // File jarFile = new File(LibraryManager.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+        File jarFile = new File("C:\\repos\\oss\\MineOnlineDak\\target\\mineonline-1.0-SNAPSHOT.jar");
+        System.out.println("jarfile: " + jarFile.getAbsolutePath());
+        
         if(!jarFile.exists() || jarFile.isDirectory())
             return;
 

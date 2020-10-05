@@ -1,6 +1,14 @@
 package gg.codie.mineonline.gui;
 
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
+import java.awt.Desktop;
+import java.net.URI;
+
+import org.json.JSONObject;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
+
 import gg.codie.mineonline.Globals;
 import gg.codie.mineonline.Session;
 import gg.codie.mineonline.api.MineOnlineAPI;
@@ -9,22 +17,18 @@ import gg.codie.mineonline.gui.components.SmallInputField;
 import gg.codie.mineonline.gui.components.SmallPasswordInputField;
 import gg.codie.mineonline.gui.events.IOnClickListener;
 import gg.codie.mineonline.gui.font.GUIText;
-import gg.codie.mineonline.gui.rendering.*;
+import gg.codie.mineonline.gui.rendering.Camera;
+import gg.codie.mineonline.gui.rendering.DisplayManager;
+import gg.codie.mineonline.gui.rendering.GUIObject;
+import gg.codie.mineonline.gui.rendering.Loader;
+import gg.codie.mineonline.gui.rendering.Renderer;
+import gg.codie.mineonline.gui.rendering.TextureHelper;
 import gg.codie.mineonline.gui.rendering.font.TextMaster;
 import gg.codie.mineonline.gui.rendering.models.RawModel;
 import gg.codie.mineonline.gui.rendering.models.TexturedModel;
 import gg.codie.mineonline.gui.rendering.shaders.GUIShader;
 import gg.codie.mineonline.gui.rendering.textures.ModelTexture;
 import gg.codie.utils.LastLogin;
-import org.json.JSONObject;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
-
-import javax.naming.AuthenticationException;
-import java.awt.*;
-import java.net.URI;
 
 public class LoginMenuScreen implements IMenuScreen {
     GUIObject logo;
